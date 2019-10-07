@@ -10,7 +10,7 @@ import (
 // AuthJWT implement Authentication interface
 type AuthJWT struct {
 	alg jwt.SigningMethod
-	exp time.Time
+	exp time.Duration
 }
 
 // login
