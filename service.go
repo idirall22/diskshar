@@ -3,6 +3,14 @@ package user
 import (
 	"database/sql"
 	"errors"
+	"time"
+
+	jwt "github.com/dgrijalva/jwt-go"
+)
+
+var (
+	// TokenExpiration time to exp a token
+	TokenExpiration = time.Second * 3600 * 24 * 14
 )
 
 var (
@@ -17,6 +25,7 @@ var service *Service
 
 // Service model
 type Service struct {
+	auth     Authentication
 	provider Provider
 }
 
@@ -35,6 +44,7 @@ func StartService(db *sql.DB, tableName string) error {
 		return err
 	}
 
-	service = &Service{provider: provider}
+	auth := &AuthJWT{alg: &jwt.SigningMethodHMAC{}, exp: TokenExpiration}
+	service = &Service{provider: provider, auth: auth}
 	return nil
 }
