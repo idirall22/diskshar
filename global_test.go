@@ -79,5 +79,6 @@ func TestGlobal(t *testing.T) {
 	defer closeDB(testService.provider.(*PostgresProvider).getDB())
 	t.Run("new", testNew)
 	t.Run("get", testGet)
+	t.Run("update", testUpdate)
 
 }

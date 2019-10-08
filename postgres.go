@@ -116,12 +116,53 @@ func (p *PostgresProvider) Get(ctx context.Context,
 }
 
 // Update update user model
-func (p *PostgresProvider) Update(ctx context.Context, firstName, lastName, avatar string) error {
+func (p *PostgresProvider) Update(ctx context.Context, id int64, firstName, lastName, avatar string) error {
+
+	tx, err := p.db.BeginTx(ctx, nil)
+	defer tx.Rollback()
+
+	if err != nil {
+		return err
+	}
+
+	query := fmt.Sprintf(`SELECT EXISTS( SELECT 1 FROM %s WHERE id = %d)`, p.tableName, id)
+
+	exists := false
+
+	err = tx.QueryRowContext(ctx, query).Scan(&exists)
+	if err != nil {
+		return err
+	}
+
+	if !exists {
+		return sql.ErrNoRows
+	}
+
+	query = fmt.Sprintf(`
+		UPDATE %s
+		SET first_name = '%s', last_name = '%s', avatar = '%s'
+		WHERE(id = %d)
+	`, p.tableName, firstName, lastName, avatar, id)
+
+	stmt, err := p.db.PrepareContext(ctx, query)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.ExecContext(ctx)
+
+	if err != nil {
+		return err
+	}
+	tx.Commit()
+
 	return nil
 }
 
 // Delete delete user model
 func (p *PostgresProvider) Delete(ctx context.Context, id int64) error {
+
 	return nil
 }
 

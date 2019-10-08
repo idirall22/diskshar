@@ -12,7 +12,7 @@ var driverName = "postgres"
 type Provider interface {
 	New(context.Context, string, string, string, string, string, string) (*User, error)
 	Get(context.Context, int64, string, string) (*User, error)
-	Update(context.Context, string, string, string) error
+	Update(context.Context, int64, string, string, string) error
 	Delete(ctx context.Context, id int64) error
 }
 

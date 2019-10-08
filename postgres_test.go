@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"database/sql"
 	"testing"
 )
 
@@ -10,6 +11,7 @@ var username = "Jhon"
 var email = "Jhon@email.com"
 var userPassword = "password"
 
+// Test new
 func testNew(t *testing.T) {
 	// fmt.Println(testService.provider.(*))
 
@@ -26,6 +28,7 @@ func testNew(t *testing.T) {
 	}
 }
 
+// Test get
 func testGet(t *testing.T) {
 
 	// Test GEt by id
@@ -74,5 +77,18 @@ func testGet(t *testing.T) {
 
 	if user != nil {
 		t.Error("Error user returned should be nil")
+	}
+}
+
+// Test update
+func testUpdate(t *testing.T) {
+	err := testService.provider.Update(context.Background(), 1, "jhonny", "jons", "")
+	if err != nil {
+		t.Error("Error Update: ", err)
+	}
+
+	err = testService.provider.Update(context.Background(), 0, "jhonny", "jons", "")
+	if err != sql.ErrNoRows {
+		t.Error("Error Update: ", err)
 	}
 }
