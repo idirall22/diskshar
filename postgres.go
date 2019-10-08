@@ -116,7 +116,7 @@ func (p *PostgresProvider) Get(ctx context.Context,
 }
 
 // Update update user model
-func (p *PostgresProvider) Update(ctx context.Context, user *User) error {
+func (p *PostgresProvider) Update(ctx context.Context, firstName, lastName, avatar string) error {
 	return nil
 }
 
