@@ -33,7 +33,8 @@ func cleanDB(db *sql.DB) error {
 		    Email VARCHAR NOT NULL,
 		    password VARCHAR NOT NULL,
 		    avatar VARCHAR,
-		    created_at TIMESTAMP with TIME ZONE DEFAULT now()
+			created_at TIMESTAMP with TIME ZONE DEFAULT now(),
+		    deleted_at TIMESTAMP DEFAULT NULL
 		);
 		`)
 
@@ -80,5 +81,6 @@ func TestGlobal(t *testing.T) {
 	t.Run("new", testNew)
 	t.Run("get", testGet)
 	t.Run("update", testUpdate)
+	t.Run("delete", testDelete)
 
 }

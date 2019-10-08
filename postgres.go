@@ -69,11 +69,11 @@ func (p *PostgresProvider) Get(ctx context.Context,
 
 	query := `
 		{{if gt .id 0}}
-			SELECT * FROM {{.tableName}} WHERE id={{.id}}
+			SELECT * FROM {{.tableName}} WHERE id={{.id}} AND deleted_at IS NULL
 		{{else if (ne .username "")}}
-			SELECT * FROM {{.tableName}} WHERE username='{{.username}}'
+			SELECT * FROM {{.tableName}} WHERE username='{{.username}}' AND deleted_at IS NULL
 		{{else if (ne .email "")}}
-			SELECT * FROM {{.tableName}} WHERE email='{{.email}}'
+			SELECT * FROM {{.tableName}} WHERE email='{{.email}}' AND deleted_at IS NULL
 		{{else}}
 
 		{{end}}
@@ -106,6 +106,7 @@ func (p *PostgresProvider) Get(ctx context.Context,
 		&user.Password,
 		&user.Avatar,
 		&user.CreatedAt,
+		&user.DeletedAt,
 	)
 
 	if err != nil {
@@ -162,6 +163,34 @@ func (p *PostgresProvider) Update(ctx context.Context, id int64, firstName, last
 
 // Delete delete user model
 func (p *PostgresProvider) Delete(ctx context.Context, id int64) error {
+
+	tx, err := p.db.BeginTx(ctx, nil)
+	defer tx.Rollback()
+
+	if err != nil {
+		return err
+	}
+
+	query := fmt.Sprintf(`SELECT EXISTS( SELECT 1 FROM %s WHERE id = %d)`,
+		p.tableName, id)
+
+	exists := false
+
+	err = tx.QueryRowContext(ctx, query).Scan(&exists)
+	if err != nil {
+		return err
+	}
+
+	if !exists {
+		return sql.ErrNoRows
+	}
+
+	query = fmt.Sprintf(`DELETE FROM users WHERE id=%d`, id)
+	_, err = tx.ExecContext(ctx, query)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

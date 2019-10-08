@@ -35,7 +35,7 @@ func testGet(t *testing.T) {
 	user, err := testService.provider.Get(context.Background(), id, "", "")
 
 	if err != nil {
-		t.Error("Error Get :", err)
+		t.Error("Error testing by id on Get :", err)
 		return
 	}
 	if user.ID != id {
@@ -90,5 +90,23 @@ func testUpdate(t *testing.T) {
 	err = testService.provider.Update(context.Background(), 0, "jhonny", "jons", "")
 	if err != sql.ErrNoRows {
 		t.Error("Error Update: ", err)
+	}
+}
+
+// Test delete
+func testDelete(t *testing.T) {
+
+	//test when id exists
+	err := testService.provider.Delete(context.Background(), id)
+	if err != nil {
+		t.Error("Error to delete a user: ", err)
+		return
+	}
+
+	// test when id not exists
+	err = testService.provider.Delete(context.Background(), 0)
+	if err != sql.ErrNoRows {
+		t.Error("Error should be row not exists but got: ", err)
+		return
 	}
 }
