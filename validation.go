@@ -55,3 +55,23 @@ func parseUniqueConstraintError(err string) error {
 	}
 	return nil
 }
+
+// validateLoginForm
+func validateLoginForm(form *RegisterForm) (*RegisterForm, error) {
+
+	// Validate username
+	username, errU := validateUsername(form.Username)
+	if errU != nil {
+		return nil, errU
+	}
+	form.Username = username
+
+	// Validate email
+	email, errE := validateEmail(form.Email)
+	if errE != nil {
+		return nil, errE
+	}
+	form.Email = email
+
+	return form, nil
+}
