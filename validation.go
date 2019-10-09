@@ -16,6 +16,11 @@ var (
 
 // validate email
 func validateEmail(email string) (string, error) {
+
+	if email == "" {
+		return email, ErrorEmailNotValid
+	}
+
 	email = strings.TrimSpace(email)
 	valid, _ := regexp.MatchString("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", email)
 	if !valid {
@@ -26,6 +31,10 @@ func validateEmail(email string) (string, error) {
 
 // validate username
 func validateUsername(username string) (string, error) {
+
+	if username == "" {
+		return username, ErrorUsernameNotValid
+	}
 	username = strings.TrimSpace(username)
 	valid, _ := regexp.MatchString("^[a-zA-Z0-9]+$", username)
 
@@ -33,4 +42,16 @@ func validateUsername(username string) (string, error) {
 		return username, ErrorUsernameNotValid
 	}
 	return username, nil
+}
+
+func parseUniqueConstraintError(err string) error {
+
+	e := strings.Split(err, "_")[1]
+	switch e {
+	case "email":
+		return ErrorEmailTaken
+	case "username":
+		return ErrorUsernameTaken
+	}
+	return nil
 }
