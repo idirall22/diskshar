@@ -2,6 +2,13 @@ package user
 
 import "time"
 
+// RegisterForm model
+type RegisterForm struct {
+	Username string `json:"username"`
+	Email    string `json:"Email"`
+	Password string `json:"password"`
+}
+
 // User model
 type User struct {
 	ID        int64      `json:"id"`
