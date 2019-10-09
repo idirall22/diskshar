@@ -1,11 +1,18 @@
 package user
 
 import (
-	"context"
+	"time"
+
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
-// Authentication interface
-type Authentication interface {
-	login(context.Context, string, string, string) (string, error)
-	register(context.Context, string, string, string) error
+var (
+	// TokenExpiration time to exp a token
+	TokenExpiration = time.Second * 3600 * 24 * 14
+)
+
+// AuthJWT implement Authentication interface
+type AuthJWT struct {
+	alg jwt.SigningMethod
+	exp time.Duration
 }

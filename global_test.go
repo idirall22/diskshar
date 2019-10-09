@@ -62,8 +62,9 @@ func connectDB() error {
 	}
 
 	provider := &PostgresProvider{db: db, tableName: "users"}
-	testService = &Service{provider: provider}
-
+	testService = &Service{
+		provider: provider,
+	}
 	err = cleanDB(db)
 	if err != nil {
 		return err
@@ -78,6 +79,8 @@ func TestGlobal(t *testing.T) {
 	}
 
 	defer closeDB(testService.provider.(*PostgresProvider).getDB())
+
+	// service.provider
 	t.Run("new", testNew)
 	t.Run("get", testGet)
 	t.Run("update", testUpdate)
