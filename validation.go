@@ -7,7 +7,10 @@ import (
 )
 
 var (
-	ErrorEmailNotValid    = errors.New("Email not valid")
+	// ErrorEmailNotValid when email is not valid
+	ErrorEmailNotValid = errors.New("Email not valid")
+
+	// ErrorUsernameNotValid when username is not valid
 	ErrorUsernameNotValid = errors.New("Username not valid")
 )
 

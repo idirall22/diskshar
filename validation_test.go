@@ -31,7 +31,7 @@ func TestValidateEmail(t *testing.T) {
 // Test email
 func TestValidateUsername(t *testing.T) {
 	usernameTest := []string{
-		"jhonjons12",
+		"Jhon",
 		"@jhon+",
 	}
 
