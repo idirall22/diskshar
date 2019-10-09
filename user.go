@@ -18,16 +18,6 @@ var (
 // create user
 func (s *Service) createUser(ctx context.Context, username, email, password string) error {
 
-	email, err := validateEmail(email)
-	if err != nil {
-		return err
-	}
-
-	username, err = validateUsername(username)
-	if err != nil {
-		return err
-	}
-
 	passwordHased, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
