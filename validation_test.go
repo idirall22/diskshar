@@ -114,3 +114,28 @@ func TestValidateLoginForm(t *testing.T) {
 		}
 	}
 }
+
+// Test validate token
+func testValidateToken(t *testing.T) {
+	testTokens := []string{
+		testTokenString,
+		testTokenString[:len(testTokenString)-5],
+	}
+
+	for i, token := range testTokens {
+		_, _, err := validateBearerToken(token)
+		switch i {
+		case 0:
+			if err != nil {
+				t.Error("Error should be nil but got: ", err)
+				break
+			}
+		case 1:
+			if err == nil {
+				t.Errorf("Error should be \"%s\" but got: \"%s\"", ErrorTokenNoyValid, err)
+				break
+			}
+		}
+	}
+
+}
