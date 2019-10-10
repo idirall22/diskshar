@@ -9,6 +9,19 @@ type RegisterForm struct {
 	Password string `json:"password"`
 }
 
+// LoginForm model
+type LoginForm struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+// ValidLoginForm model
+type ValidLoginForm struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 // User model
 type User struct {
 	ID        int64      `json:"id"`
