@@ -87,4 +87,10 @@ func TestGlobal(t *testing.T) {
 	t.Run("delete", testDelete)
 
 	t.Run("create user", testCreateUser)
+	t.Run("authenticate user", testAuthenticate)
+
+	// handlers
+	t.Run("register handler", testRegister)
+	t.Run("login handler", testLogin)
+
 }
