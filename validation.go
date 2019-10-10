@@ -4,6 +4,8 @@ import (
 	"errors"
 	"regexp"
 	"strings"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -12,6 +14,9 @@ var (
 
 	// ErrorUsernameNotValid when username is not valid
 	ErrorUsernameNotValid = errors.New("Username not valid")
+
+	// ErrorLoginInfos when username and email are not valid
+	ErrorLoginInfos = errors.New("You need to use email or username to login")
 )
 
 // validate email
@@ -57,7 +62,7 @@ func parseUniqueConstraintError(err string) error {
 }
 
 // validateLoginForm
-func validateLoginForm(form *RegisterForm) (*RegisterForm, error) {
+func validateRegisterForm(form *RegisterForm) (*RegisterForm, error) {
 
 	// Validate username
 	username, errU := validateUsername(form.Username)
@@ -74,4 +79,28 @@ func validateLoginForm(form *RegisterForm) (*RegisterForm, error) {
 	form.Email = email
 
 	return form, nil
+}
+
+// validateLoginForm
+func validateLoginForm(form *LoginForm) (*ValidLoginForm, error) {
+
+	vForm := &ValidLoginForm{Username: "", Email: "", Password: ""}
+	// Validate username
+	username, err := validateUsername(form.Username)
+	if err != nil {
+		// Validate email
+		username, err = validateEmail(form.Username)
+		if err != nil {
+			return nil, ErrorLoginInfos
+		}
+		vForm.Email = username
+	} else {
+		vForm.Username = username
+	}
+
+	return vForm, nil
+}
+
+func validatePassword(hashedPassword, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
