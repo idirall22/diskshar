@@ -26,12 +26,13 @@ var (
 // create user
 func (s *Service) createUser(ctx context.Context, username, email, password string) error {
 
-	passwordHased, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	passwordHashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
 	if err != nil {
 		return err
 	}
 
-	_, err = s.provider.New(ctx, username, email, "", "", string(passwordHased), "")
+	_, err = s.provider.New(ctx, username, email, "", "", string(passwordHashed), "")
 
 	if err != nil {
 		if e, ok := err.(*pq.Error); ok {
@@ -55,8 +56,8 @@ func (s *Service) Authenticate(ctx context.Context, username, email, password st
 		}
 		return "", err
 	}
-
 	err = validatePassword(user.Password, password)
+
 	if err != nil {
 		return "", ErrorPassword
 	}
