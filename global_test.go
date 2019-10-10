@@ -92,5 +92,7 @@ func TestGlobal(t *testing.T) {
 	// handlers
 	t.Run("register handler", testRegister)
 	t.Run("login handler", testLogin)
+	t.Run("middelware authenticate user", testAuthnticateUser)
+	t.Run("validate token", testValidateToken)
 
 }
