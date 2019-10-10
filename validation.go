@@ -84,7 +84,7 @@ func validateRegisterForm(form *RegisterForm) (*RegisterForm, error) {
 // validateLoginForm
 func validateLoginForm(form *LoginForm) (*ValidLoginForm, error) {
 
-	vForm := &ValidLoginForm{Username: "", Email: "", Password: ""}
+	vForm := &ValidLoginForm{Username: "", Email: "", Password: form.Password}
 	// Validate username
 	username, err := validateUsername(form.Username)
 	if err != nil {
