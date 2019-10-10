@@ -56,3 +56,33 @@ func testRegister(t *testing.T) {
 		}
 	}
 }
+
+// Test Login handler
+func testLogin(t *testing.T) {
+
+	loginForm := []LoginForm{
+		{Username: "alice1", Password: "password"},
+		{Username: "xman", Password: "notvalid"},
+	}
+	for i, form := range loginForm {
+
+		data, err := json.Marshal(form)
+
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		resp := makeTestRequest(t, testService.Login, "POST", "/login", data)
+
+		switch i {
+		case 0:
+			if resp.Code != http.StatusOK {
+				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusOK)
+			}
+		case 1:
+			if resp.Code != http.StatusNotFound {
+				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusNotFound)
+			}
+		}
+	}
+}
