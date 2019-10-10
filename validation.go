@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"strings"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -17,6 +18,9 @@ var (
 
 	// ErrorLoginInfos when username and email are not valid
 	ErrorLoginInfos = errors.New("You need to use email or username to login")
+
+	// ErrorTokenNoyValid when token is not valid
+	ErrorTokenNoyValid = errors.New("token not valid")
 )
 
 // validate email
@@ -101,6 +105,39 @@ func validateLoginForm(form *LoginForm) (*ValidLoginForm, error) {
 	return vForm, nil
 }
 
+// validate password
 func validatePassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+}
+
+// validate bearer token
+func validateBearerToken(tokenString string) (int64, string, error) {
+
+	params := strings.Split(tokenString, " ")
+	if params[0] != "Bearer" {
+		return 0, "", ErrorTokenNoyValid
+	}
+
+	funcKey := func(*jwt.Token) (interface{}, error) {
+		return TokenSignedString, nil
+	}
+
+	token, err := jwt.ParseWithClaims(params[1], &ClaimsJWT{}, funcKey)
+
+	if err != nil {
+
+	}
+
+	if !token.Valid {
+		return 0, "", ErrorTokenNoyValid
+
+	}
+
+	claims, ok := token.Claims.(*ClaimsJWT)
+
+	if !ok {
+		return 0, "", ErrorTokenNoyValid
+	}
+
+	return claims.ID, claims.Username, nil
 }
