@@ -8,6 +8,8 @@ import (
 	"testing"
 )
 
+var testTokenString = ""
+
 // make request for tests
 func makeTestRequest(t *testing.T, f http.HandlerFunc, method, url string, data []byte) *httptest.ResponseRecorder {
 
@@ -79,6 +81,7 @@ func testLogin(t *testing.T) {
 			if resp.Code != http.StatusOK {
 				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusOK)
 			}
+			testTokenString = resp.HeaderMap["Autherization"][0]
 		case 1:
 			if resp.Code != http.StatusNotFound {
 				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusNotFound)
