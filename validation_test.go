@@ -53,7 +53,7 @@ func TestValidateUsername(t *testing.T) {
 }
 
 // validate register form
-func TestValidateLoginForm(t *testing.T) {
+func TestValidateRegisterForm(t *testing.T) {
 	registerForm := []*RegisterForm{
 		// When form is valid
 		{Username: "jhon", Email: "jhon@gmail.com", Password: "password"},
@@ -64,7 +64,7 @@ func TestValidateLoginForm(t *testing.T) {
 	}
 
 	for i, form := range registerForm {
-		_, err := validateLoginForm(form)
+		_, err := validateRegisterForm(form)
 		switch i {
 		case 0:
 			if err != nil {
@@ -78,6 +78,38 @@ func TestValidateLoginForm(t *testing.T) {
 		case 2:
 			if err != ErrorEmailNotValid {
 				t.Error("Error this error should be ErrorEmailNotValid but got :", err)
+			}
+		}
+	}
+}
+
+// Test validate login form
+func TestValidateLoginForm(t *testing.T) {
+	loginForm := []*LoginForm{
+		// When form user use username to login
+		{Username: "jhon", Password: "password"},
+
+		// When form user use username to email
+		{Username: "jhon@email.com", Password: "password"},
+
+		// When form user use bad credentials
+		{Username: "jhonemail.com", Password: "password"},
+	}
+	for i, form := range loginForm {
+		_, err := validateLoginForm(form)
+
+		switch i {
+		case 0:
+			if err != nil {
+				t.Error("Error this error should be nil but got: ", err)
+			}
+		case 1:
+			if err != nil {
+				t.Error("Error this error should be nil but got: ", err)
+			}
+		case 2:
+			if err != ErrorLoginInfos {
+				t.Errorf("Error this error should be %s but got: %s\n", ErrorLoginInfos.Error(), err)
 			}
 		}
 	}
