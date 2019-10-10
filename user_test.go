@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	"testing"
 )
 
@@ -34,4 +35,10 @@ func testCreateUser(t *testing.T) {
 			}
 		}
 	}
+}
+
+func testAuthenticate(t *testing.T) {
+	token, err := testService.Authenticate(context.Background(), username, "", userPassword)
+	fmt.Println(err)
+	fmt.Println(token)
 }

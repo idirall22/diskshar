@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/lib/pq"
@@ -17,6 +18,9 @@ var (
 
 	// ErrorPassword when password is not valid
 	ErrorPassword = errors.New("Password not valid")
+
+	// ErrorNoUser when there is no user with credentials used
+	ErrorNoUser = errors.New("There is no user with credentials used")
 )
 
 // create user
@@ -45,6 +49,10 @@ func (s *Service) Authenticate(ctx context.Context, username, email, password st
 
 	user, err := s.provider.Get(ctx, 0, username, email)
 	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return "", ErrorNoUser
+		}
 		return "", err
 	}
 
