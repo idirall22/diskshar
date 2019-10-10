@@ -11,8 +11,12 @@ import (
 var (
 	// ErrorUsernameTaken when username already taken
 	ErrorUsernameTaken = errors.New("Username already taken")
+
 	// ErrorEmailTaken when email already taken
 	ErrorEmailTaken = errors.New("Email already taken")
+
+	// ErrorPassword when password is not valid
+	ErrorPassword = errors.New("Password not valid")
 )
 
 // create user
@@ -34,4 +38,20 @@ func (s *Service) createUser(ctx context.Context, username, email, password stri
 		return err
 	}
 	return nil
+}
+
+// Authenticate auth a user
+func (s *Service) Authenticate(ctx context.Context, username, email, password string) (string, error) {
+
+	user, err := s.provider.Get(ctx, 0, username, email)
+	if err != nil {
+		return "", err
+	}
+
+	err = validatePassword(user.Password, password)
+	if err != nil {
+		return "", ErrorPassword
+	}
+
+	return generateToken(user.ID, user.Username)
 }
