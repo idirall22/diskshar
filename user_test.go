@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"fmt"
 	"testing"
 )
 
@@ -37,8 +36,34 @@ func testCreateUser(t *testing.T) {
 	}
 }
 
+// Test Authenticate user
 func testAuthenticate(t *testing.T) {
-	token, err := testService.Authenticate(context.Background(), username, "", userPassword)
-	fmt.Println(err)
-	fmt.Println(token)
+
+	testUsers := []ValidLoginForm{
+		// When user use username to login
+		{Username: "jane", Email: "", Password: userPassword},
+		// When user use email to login
+		{Username: "", Email: "jane@email.com", Password: userPassword},
+		// When user use username but this one does not exists
+		{Username: "Xman", Email: "", Password: userPassword},
+	}
+
+	for i, user := range testUsers {
+		_, err := testService.Authenticate(context.Background(), user.Username, user.Email, user.Password)
+
+		switch i {
+		case 0:
+			if err != nil {
+				t.Error("Error should be nil but got: ", err)
+			}
+		case 1:
+			if err != nil {
+				t.Error("Error should be nil but got: ", err)
+			}
+		case 2:
+			if err != ErrorNoUser {
+				t.Errorf("Error should be \"%s\" but got: \"%s\"\n", ErrorNoUser, err)
+			}
+		}
+	}
 }
