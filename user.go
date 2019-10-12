@@ -56,7 +56,7 @@ func (s *Service) Authenticate(ctx context.Context, username, email, password st
 		}
 		return "", err
 	}
-	err = validatePassword(user.Password, password)
+	err = comparePassword(user.Password, password)
 
 	if err != nil {
 		return "", ErrorPassword

@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -103,11 +102,6 @@ func validateLoginForm(form *LoginForm) (*ValidLoginForm, error) {
 	}
 
 	return vForm, nil
-}
-
-// validate password
-func validatePassword(hashedPassword, password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
 // validate bearer token
