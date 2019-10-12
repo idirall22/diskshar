@@ -26,7 +26,7 @@ var (
 	ErrorMaxPass = fmt.Errorf("Maximum password length must be %d", maxPassLength)
 
 	// ErrorPassStrength when password strength is less then defaultEntropy
-	ErrorPassStrength = fmt.Errorf("Maximum password length must be %d", maxPassLength)
+	ErrorPassStrength = fmt.Errorf("Password is too weak")
 )
 
 // validate password
