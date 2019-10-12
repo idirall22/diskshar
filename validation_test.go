@@ -56,11 +56,11 @@ func TestValidateUsername(t *testing.T) {
 func TestValidateRegisterForm(t *testing.T) {
 	registerForm := []*RegisterForm{
 		// When form is valid
-		{Username: "jhon", Email: "jhon@gmail.com", Password: "password"},
+		{Username: "jhon", Email: "jhon@gmail.com", Password: testPassword},
 		// When form is not valid "username"
-		{Username: "@jhon", Email: "jhon@gmail.com", Password: "password"},
+		{Username: "@jhon", Email: "jhon@gmail.com", Password: testPassword},
 		// When form is not valid "email"
-		{Username: "jhon", Email: "jhongmail.com", Password: "password"},
+		{Username: "jhon", Email: "jhongmail.com", Password: testPassword},
 	}
 
 	for i, form := range registerForm {
