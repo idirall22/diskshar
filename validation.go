@@ -81,6 +81,13 @@ func validateRegisterForm(form *RegisterForm) (*RegisterForm, error) {
 	}
 	form.Email = email
 
+	// validate password
+	err := validatePassword(form.Password)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return form, nil
 }
 
