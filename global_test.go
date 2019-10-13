@@ -1,4 +1,4 @@
-package user_account
+package userAccount
 
 import (
 	"database/sql"
