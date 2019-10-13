@@ -1,4 +1,4 @@
-module github.com/idirall22/userAccount
+module github.com/idirall22/user
 
 go 1.12
 
