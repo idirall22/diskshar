@@ -1,4 +1,4 @@
-module user
+module user_account
 
 go 1.12
 
