@@ -3,10 +3,13 @@ package userAccount
 import (
 	"context"
 	"testing"
+
+	"github.com/idirall22/user/models"
 )
 
 // Test create user
 func testCreateUser(t *testing.T) {
+
 	testUsers := []struct {
 		username string
 		email    string
@@ -39,7 +42,7 @@ func testCreateUser(t *testing.T) {
 // Test Authenticate user
 func testAuthenticate(t *testing.T) {
 
-	testUsers := []ValidLoginForm{
+	testUsers := []models.ValidLoginForm{
 		// When user use username to login
 		{Username: "jane", Email: "", Password: userPassword},
 		// When user use email to login

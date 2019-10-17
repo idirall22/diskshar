@@ -15,7 +15,8 @@ var IDCtx Key = "user_id"
 var UsernameCtx Key = "user_username"
 
 // AuthnticateUser check if user is authonticated resquest
-func AuthnticateUser(fn http.Handler) http.Handler {
+func AuthnticateUser(fn http.HandlerFunc) http.HandlerFunc {
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		tokenString := r.Header.Get("Authorization")

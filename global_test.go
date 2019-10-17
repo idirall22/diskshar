@@ -6,6 +6,7 @@ import (
 	"log"
 	"testing"
 
+	pr "github.com/idirall22/user/providers/postgres"
 	_ "github.com/lib/pq"
 )
 
@@ -18,7 +19,7 @@ const (
 )
 
 var testService *Service
-var testDriverName = "postgres"
+var userPassword = "password"
 
 // Clean db test
 func cleanDB(db *sql.DB) error {
@@ -56,12 +57,12 @@ func connectDB() error {
 	dbInfos := fmt.Sprintf(`host=%s port=%d user=%s password=%s dbname=%s sslmode=disable`,
 		host, port, user, password, dbname)
 
-	db, err := sql.Open(testDriverName, dbInfos)
+	db, err := sql.Open("postgres", dbInfos)
 	if err != nil {
 		return err
 	}
 
-	provider := &PostgresProvider{db: db, tableName: "users"}
+	provider := &pr.PostgresProvider{DB: db, TableName: "users"}
 	testService = &Service{
 		provider: provider,
 	}
@@ -78,13 +79,13 @@ func TestGlobal(t *testing.T) {
 		log.Fatal("Error connect database test, ", err)
 	}
 
-	defer closeDB(testService.provider.(*PostgresProvider).getDB())
+	defer closeDB(testService.provider.(*pr.PostgresProvider).GetDB())
 
 	// service.provider
-	t.Run("new", testNew)
-	t.Run("get", testGet)
-	t.Run("update", testUpdate)
-	t.Run("delete", testDelete)
+	// t.Run("new", testNew)
+	// t.Run("get", testGet)
+	// t.Run("update", testUpdate)
+	// t.Run("delete", testDelete)
 
 	t.Run("create user", testCreateUser)
 	t.Run("authenticate user", testAuthenticate)

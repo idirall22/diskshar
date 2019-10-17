@@ -3,6 +3,8 @@ package userAccount
 import (
 	"database/sql"
 	"errors"
+
+	pr "github.com/idirall22/user/providers/postgres"
 )
 
 var (
@@ -12,29 +14,14 @@ var (
 	ErrorTableNameSS = errors.New("Error table name not valid")
 )
 
-// service
-var service *Service
-
 // Service model
 type Service struct {
 	provider Provider
 }
 
 // StartService start service user
-func StartService(db *sql.DB, tableName string) error {
+func StartService(db *sql.DB, tableName string) *Service {
 
-	if db == nil {
-		return ErrorDataBaseSS
-	}
-	if tableName == "" {
-		return ErrorTableNameSS
-	}
-
-	provider, err := getProvider(db, tableName)
-	if err != nil {
-		return err
-	}
-
-	service = &Service{provider: provider}
-	return nil
+	provider := &pr.PostgresProvider{DB: db, TableName: tableName}
+	return &Service{provider: provider}
 }

@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/idirall22/user/models"
 )
 
 var (
@@ -65,7 +66,7 @@ func parseUniqueConstraintError(err string) error {
 }
 
 // validateLoginForm
-func validateRegisterForm(form *RegisterForm) (*RegisterForm, error) {
+func validateRegisterForm(form *models.RegisterForm) (*models.RegisterForm, error) {
 
 	// Validate username
 	username, errU := validateUsername(form.Username)
@@ -92,9 +93,9 @@ func validateRegisterForm(form *RegisterForm) (*RegisterForm, error) {
 }
 
 // validateLoginForm
-func validateLoginForm(form *LoginForm) (*ValidLoginForm, error) {
+func validateLoginForm(form *models.LoginForm) (*models.ValidLoginForm, error) {
 
-	vForm := &ValidLoginForm{Username: "", Email: "", Password: form.Password}
+	vForm := &models.ValidLoginForm{Username: "", Email: "", Password: form.Password}
 	// Validate username
 	username, err := validateUsername(form.Username)
 	if err != nil {

@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
+	"github.com/idirall22/user/models"
 )
 
 // TimeoutRequest timeout a request
@@ -15,7 +17,7 @@ func (s *Service) Register(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	form := &RegisterForm{}
+	form := &models.RegisterForm{}
 	err := json.NewDecoder(r.Body).Decode(&form)
 
 	if err != nil {
@@ -58,7 +60,7 @@ func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	form := &LoginForm{}
+	form := &models.LoginForm{}
 	err := json.NewDecoder(r.Body).Decode(&form)
 
 	if err != nil {

@@ -2,6 +2,8 @@ package userAccount
 
 import (
 	"testing"
+
+	"github.com/idirall22/user/models"
 )
 
 // Test email
@@ -54,7 +56,7 @@ func TestValidateUsername(t *testing.T) {
 
 // validate register form
 func TestValidateRegisterForm(t *testing.T) {
-	registerForm := []*RegisterForm{
+	registerForm := []*models.RegisterForm{
 		// When form is valid
 		{Username: "jhon", Email: "jhon@gmail.com", Password: testPassword},
 		// When form is not valid "username"
@@ -85,7 +87,7 @@ func TestValidateRegisterForm(t *testing.T) {
 
 // Test validate login form
 func TestValidateLoginForm(t *testing.T) {
-	loginForm := []*LoginForm{
+	loginForm := []*models.LoginForm{
 		// When form user use username to login
 		{Username: "jhon", Password: "password"},
 

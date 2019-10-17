@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/idirall22/user/models"
 )
 
 var testTokenString = ""
@@ -29,7 +31,7 @@ func makeTestRequest(t *testing.T, f http.HandlerFunc, method, url string, data 
 // test register handler
 func testRegister(t *testing.T) {
 
-	registerForm := []RegisterForm{
+	registerForm := []models.RegisterForm{
 		{Username: "alice1", Email: "alice@gmail.com", Password: testPassword},
 		{Username: "alice1", Email: "alice3@gmail.com", Password: testPassword},
 		{Username: "alice2", Email: "alice@gmail.com", Password: testPassword},
@@ -64,7 +66,7 @@ func testRegister(t *testing.T) {
 // Test Login handler
 func testLogin(t *testing.T) {
 
-	loginForm := []LoginForm{
+	loginForm := []models.LoginForm{
 		{Username: "alice1", Password: testPassword},
 		{Username: "xman", Password: testPassword},
 	}
