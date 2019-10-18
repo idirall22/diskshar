@@ -20,7 +20,7 @@ func testCreateUser(t *testing.T) {
 	}
 
 	for i, user := range testUsers {
-		err := testService.createUser(context.Background(), user.username, user.email, userPassword)
+		err := testService.createUser(context.Background(), user.username, user.email, testPassword)
 
 		switch i {
 		case 0:
@@ -44,11 +44,11 @@ func testAuthenticate(t *testing.T) {
 
 	testUsers := []models.ValidLoginForm{
 		// When user use username to login
-		{Username: "jane", Email: "", Password: userPassword},
+		{Username: "jane", Email: "", Password: testPassword},
 		// When user use email to login
-		{Username: "", Email: "jane@email.com", Password: userPassword},
+		{Username: "", Email: "jane@email.com", Password: testPassword},
 		// When user use username but this one does not exists
-		{Username: "Xman", Email: "", Password: userPassword},
+		{Username: "Xman", Email: "", Password: testPassword},
 	}
 
 	for i, user := range testUsers {

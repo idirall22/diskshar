@@ -19,7 +19,9 @@ const (
 )
 
 var testService *Service
-var userPassword = "password"
+
+var testTokenString = ""
+var testPassword = "fdpjfd654/*sMLdf"
 
 // Clean db test
 func cleanDB(db *sql.DB) error {
@@ -81,14 +83,8 @@ func TestGlobal(t *testing.T) {
 
 	defer closeDB(testService.provider.(*pr.PostgresProvider).GetDB())
 
-	// service.provider
-	// t.Run("new", testNew)
-	// t.Run("get", testGet)
-	// t.Run("update", testUpdate)
-	// t.Run("delete", testDelete)
-
-	t.Run("create user", testCreateUser)
-	t.Run("authenticate user", testAuthenticate)
+	// t.Run("create user", testCreateUser)
+	// t.Run("authenticate user", testAuthenticate)
 
 	// handlers
 	t.Run("register handler", testRegister)

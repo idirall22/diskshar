@@ -10,10 +10,6 @@ import (
 	"github.com/idirall22/user/models"
 )
 
-var testTokenString = ""
-
-var testPassword = "fdpjfd654/*sMLdf"
-
 // make request for tests
 func makeTestRequest(t *testing.T, f http.HandlerFunc, method, url string, data []byte) *httptest.ResponseRecorder {
 
@@ -32,9 +28,9 @@ func makeTestRequest(t *testing.T, f http.HandlerFunc, method, url string, data 
 func testRegister(t *testing.T) {
 
 	registerForm := []models.RegisterForm{
+		{Username: "alice", Email: "alice@gmail.com", Password: testPassword},
+		{Username: "alice", Email: "alice3@gmail.com", Password: testPassword},
 		{Username: "alice1", Email: "alice@gmail.com", Password: testPassword},
-		{Username: "alice1", Email: "alice3@gmail.com", Password: testPassword},
-		{Username: "alice2", Email: "alice@gmail.com", Password: testPassword},
 	}
 
 	for i, form := range registerForm {
@@ -67,7 +63,7 @@ func testRegister(t *testing.T) {
 func testLogin(t *testing.T) {
 
 	loginForm := []models.LoginForm{
-		{Username: "alice1", Password: testPassword},
+		{Username: "alice", Password: testPassword},
 		{Username: "xman", Password: testPassword},
 	}
 	for i, form := range loginForm {
