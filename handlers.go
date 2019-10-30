@@ -19,7 +19,6 @@ func (s *Service) Register(w http.ResponseWriter, r *http.Request) {
 
 	form := &models.RegisterForm{}
 	err := json.NewDecoder(r.Body).Decode(&form)
-
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
@@ -85,5 +84,5 @@ func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Header().Add("Autherization", "Bearer "+token)
+	w.Header().Add("Authorization", "Bearer "+token)
 }
