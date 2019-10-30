@@ -5,7 +5,7 @@ import "time"
 // RegisterForm model
 type RegisterForm struct {
 	Username string `json:"username"`
-	Email    string `json:"Email"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
