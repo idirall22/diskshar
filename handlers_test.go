@@ -82,7 +82,7 @@ func testLogin(t *testing.T) {
 				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusOK)
 			}
 
-			testTokenString = resp.HeaderMap["Autherization"][0]
+			testTokenString = resp.HeaderMap["Authorization"][0]
 		case 1:
 			if resp.Code != http.StatusNotFound {
 				t.Errorf("Error status code should %d but got %d", resp.Code, http.StatusNotFound)
