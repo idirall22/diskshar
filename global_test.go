@@ -26,7 +26,7 @@ var testPassword = "fdpjfd654/*sMLdf"
 // Clean db test
 func cleanDB(db *sql.DB) error {
 	query := fmt.Sprintf(`
-		DROP TABLE IF EXISTS users;
+		DROP TABLE IF EXISTS users CASCADE;
 
 		CREATE TABLE IF NOT EXISTS users(
 		    id SERIAL PRIMARY KEY,
