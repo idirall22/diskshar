@@ -84,5 +84,7 @@ func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Header().Add("Authorization", "Bearer "+token)
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Set("Authorization", "Bearer "+token)
+	json.NewEncoder(w).Encode(map[string]string{})
 }
